@@ -7,6 +7,7 @@
 const SortDropdown = ({ value, onChange, compact = false }) => {
   const options = [
     { value: "recommended", label: "Recommended" },
+    { value: "online-now", label: "🟢 Online now" },
     { value: "newest", label: "Newest First" },
     { value: "price-low", label: "Price: Low to High" },
     { value: "price-high", label: "Price: High to Low" },

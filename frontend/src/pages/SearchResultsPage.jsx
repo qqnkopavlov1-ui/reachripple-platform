@@ -3,6 +3,7 @@ import { useSearchParams, useParams, useLocation, useNavigate } from "react-rout
 import { getAds, getAd } from "../api/ads";
 import { saveSearch } from "../api/searchHistory";
 import api from "../api/client";
+import { useAuth } from "../context/AuthContext";
 import { buildHomeLists, isNewArrivalAd, isTrendingAd } from "../utils/homeRanking";
 import { useToastContext } from "../context/ToastContextGlobal";
 import Navbar from "../components/Navbar";
@@ -58,6 +59,32 @@ export default function SearchResultsPage() {
   useLocation(); // Track location changes for re-renders
   const navigate = useNavigate();
   const { showError: showToastError } = useToastContext();
+  const { isLoggedIn } = useAuth();
+  const [savingSearch, setSavingSearch] = useState(false);
+
+  const handleSaveSearch = useCallback(async () => {
+    if (!isLoggedIn) {
+      navigate("/login?next=" + encodeURIComponent(window.location.pathname + window.location.search));
+      return;
+    }
+    const defaultName = (locationLabel ? `${locationLabel} • ` : "") + (Object.keys(filters || {}).length ? "Filters" : "Search");
+    const name = window.prompt("Name this search:", defaultName.slice(0, 80));
+    if (!name) return;
+    try {
+      setSavingSearch(true);
+      await api.post("/saved-searches", {
+        name,
+        path: window.location.pathname,
+        query: window.location.search.replace(/^\?/, ""),
+        filters,
+      });
+      window.alert("Saved! Find it under Account → Saved searches.");
+    } catch (e) {
+      showToastError(e?.response?.data?.error || "Failed to save search");
+    } finally {
+      setSavingSearch(false);
+    }
+  }, [isLoggedIn, navigate, locationLabel, filters, showToastError]);
 
   // ===== ROUTE PARAMETERS =====
   // Extract categorySlug and locationSlug from route
@@ -891,11 +918,23 @@ export default function SearchResultsPage() {
           </div>
 
           {/* Sort Dropdown */}
-          <SortDropdown
-            value={sortBy}
-            onChange={handleSortChange}
-            compact={false}
-          />
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleSaveSearch}
+              disabled={savingSearch}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border border-zinc-200 text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800 transition disabled:opacity-50"
+              title="Save this search to your account"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+              Save search
+            </button>
+            <SortDropdown
+              value={sortBy}
+              onChange={handleSortChange}
+              compact={false}
+            />
+          </div>
         </div>
       </section>
 

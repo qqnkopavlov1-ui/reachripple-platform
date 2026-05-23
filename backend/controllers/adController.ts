@@ -467,6 +467,7 @@ export const getAds = async (req: Request, res: Response) => {
           $sort: sortBy === "price-low" ? { price: 1 } :
                  sortBy === "price-high" ? { price: -1 } :
                  sortBy === "newest" ? { createdAt: -1 } :
+                 sortBy === "online-now" ? { lastPulsedAt: -1, tierPriority: -1 } :
                  { tierPriority: -1, distanceMeters: 1, lastPulsedAt: -1 } as any,
         },
         // Pagination
@@ -561,9 +562,10 @@ export const getAds = async (req: Request, res: Response) => {
       // DO NOT sort by tier here - frontend buildHomeLists() handles bucket separation
       // But DO rank by: tier priority â†’ lastPulsedAt â†’ qualityScore â†’ createdAt
       // Use aggregation with $switch to map tier strings to numeric priority
-      if (sortBy === "price-low" || sortBy === "price-high" || sortBy === "newest") {
+      if (sortBy === "price-low" || sortBy === "price-high" || sortBy === "newest" || sortBy === "online-now") {
         const simpleSort: any = sortBy === "price-low" ? { price: 1 } :
                                 sortBy === "price-high" ? { price: -1 } :
+                                sortBy === "online-now" ? { lastPulsedAt: -1 } :
                                 { createdAt: -1 };
         ads = await Ad.find(query)
           .skip((pageNum - 1) * limitNum)

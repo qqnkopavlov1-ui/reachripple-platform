@@ -19,6 +19,7 @@ import settingRoutes from "./routes/settingRoutes";
 import authRoutes from "./routes/authRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
 import savedProfileRoutes from "./routes/savedProfileRoutes";
+import savedSearchRoutes from "./routes/savedSearchRoutes";
 import searchHistoryRoutes from "./routes/searchHistoryRoutes";
 // import reviewRoutes from "./routes/reviewRoutes"; // Removed: review system deleted
 // import chatRoutes from "./routes/chatRoutes"; // Removed: in-app messaging deleted (contact via phone/WhatsApp)
@@ -231,6 +232,7 @@ app.use("/api/reports", reportRoutes);
 app.use("/api/admin/settings", settingRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/saved-profiles", savedProfileRoutes);
+app.use("/api/saved-searches", savedSearchRoutes);
 app.use("/api/search-history", searchRateLimiter, searchHistoryRoutes);
 // app.use("/api/reviews", reviewRoutes); // Removed: review system deleted
 // app.use("/api/chat", auth, chatRoutes); // Removed: in-app messaging deleted (contact via phone/WhatsApp)
