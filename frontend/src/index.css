@@ -22,6 +22,78 @@
 }
 
 /* =====================================================
+   Mobile a11y: enforce 44x44 minimum hit-targets on
+   icon-only / small interactive controls (WCAG 2.5.5).
+   Apply by adding the .tap-target utility class.
+   ===================================================== */
+.tap-target {
+  position: relative;
+}
+@media (hover: none) and (pointer: coarse) {
+  .tap-target::after {
+    content: '';
+    position: absolute;
+    inset: 50% 50% 50% 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+    /* keep invisible but extend tap area */
+    pointer-events: auto;
+  }
+  /* Guarantee minimum visible size for buttons/links explicitly opted-in */
+  .tap-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Global: on touch devices, ensure every button/link role meets the
+   WCAG 2.5.5 minimum hit area of 44x44 unless it's part of inline text
+   or part of a tab-strip / segmented control. Opt out per-element with
+   class="no-tap-min". */
+@media (hover: none) and (pointer: coarse) and (max-width: 768px) {
+  button:not(.no-tap-min):not([role="tab"]):not(.tab-pill):not(.chip),
+  a[role="button"]:not(.no-tap-min),
+  [role="button"]:not(.no-tap-min),
+  input[type="checkbox"]:not(.no-tap-min),
+  input[type="radio"]:not(.no-tap-min) {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* =====================================================
+   Mobile typography: cap font-weight inflation on small
+   screens. Body copy stays 500-600, only h1/hero keep 800+.
+   Buttons/badges keep their declared weight.
+   ===================================================== */
+@media (max-width: 640px) {
+  /* Body copy default */
+  p,
+  li,
+  td,
+  th,
+  dd,
+  dt,
+  blockquote,
+  figcaption {
+    font-weight: 500;
+  }
+  /* Tone down extreme weights on non-display elements (p, span, div, li)
+     but leave headings, buttons, badges intact. */
+  p.font-black,
+  p.font-extrabold,
+  span.font-black,
+  span.font-extrabold,
+  div.font-black,
+  div.font-extrabold,
+  li.font-black,
+  li.font-extrabold {
+    font-weight: 700 !important;
+  }
+}
+
+/* =====================================================
    Theme Transition Styles
    ===================================================== */
 .theme-transition,

@@ -119,7 +119,7 @@ export default function SavedProfilesPage() {
             </div>
           </div>
           {/* Profile cards skeleton */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="bg-white rounded-2xl shadow-sm overflow-hidden border border-zinc-100 animate-pulse">
                 <div className="aspect-[3/4] bg-gradient-to-br from-zinc-200 to-zinc-100" />
@@ -226,7 +226,7 @@ export default function SavedProfilesPage() {
           </div>
         ) : (
           /* Saved listings grid */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
             {sortedAds.map((ad, index) => (
               <div 
                 key={ad._id} 
