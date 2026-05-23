@@ -557,4 +557,58 @@ router.get("/suggest", async (req: Request, res: Response) => {
   }
 });
 
+// =========================================
+// REVERSE GEOCODE - lat/lng => nearest UK postcode
+// GET /api/location/reverse?lat=51.5&lng=-0.12
+// Returns { result: { label, outcode, district, ward, locationSlug, value } }
+// =========================================
+router.get("/reverse", async (req: Request, res: Response) => {
+  const lat = Number(req.query.lat);
+  const lng = Number(req.query.lng);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+    return res.status(400).json({ ok: false, error: "lat and lng required" });
+  }
+  try {
+    const r = await fetch(
+      `https://api.postcodes.io/postcodes?lon=${encodeURIComponent(String(lng))}&lat=${encodeURIComponent(String(lat))}&limit=1&radius=2000`
+    );
+    const j = await r.json();
+    const p = Array.isArray(j?.result) ? j.result[0] : null;
+    if (!p) return res.json({ ok: false });
+
+    const outcode = String(p.outcode || "").toUpperCase();
+    const district = String(p.admin_district || "");
+    const ward = String(p.admin_ward || "");
+    const region = getRegion(district);
+    const locationSlug = buildLocationSlug(outcode, ward || district);
+    const displayArea = ward || district;
+    const label = outcode
+      ? `${outcode} - ${displayArea || region}`
+      : (displayArea || region || "Near me");
+
+    return res.json({
+      ok: true,
+      result: {
+        label,
+        meta: `${district || region}`,
+        outcode,
+        district,
+        ward,
+        locationSlug,
+        value: {
+          locType: "postcode",
+          outcode,
+          district,
+          ward,
+          postcode: p.postcode || "",
+          locationSlug,
+        },
+      },
+    });
+  } catch (err) {
+    logger.error("reverse geocode error:", err);
+    return res.json({ ok: false });
+  }
+});
+
 export default router;

@@ -1,10 +1,20 @@
 ﻿import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Clock } from "lucide-react";
+
+const RECENT_KEY = "viva_recent_searches";
 
 /**
  * EmptyState — shown when search has no results or an error.
  * Props: type ("error" | "no-results"), location, onClearFilters, suggestedLocations
  */
 const EmptyState = ({ type = "no-results", location, onClearFilters, suggestedLocations }) => {
+  const navigate = useNavigate();
+  let recent = [];
+  try {
+    const raw = typeof window !== 'undefined' ? localStorage.getItem(RECENT_KEY) : null;
+    if (raw) recent = JSON.parse(raw) || [];
+  } catch (e) { /* ignore */ }
   if (type === "error") {
     return (
       <div className="text-center py-16">
@@ -61,6 +71,26 @@ const EmptyState = ({ type = "no-results", location, onClearFilters, suggestedLo
                 </span>
               );
             })}
+          </div>
+        </div>
+      )}
+
+      {/* Recent searches */}
+      {recent.length > 0 && (
+        <div className="mt-6">
+          <p className="text-xs text-zinc-400 dark:text-zinc-500 mb-3 flex items-center justify-center gap-1.5">
+            <Clock size={12} /> Your recent searches
+          </p>
+          <div className="flex flex-wrap gap-2 justify-center">
+            {recent.slice(0, 6).map((r, i) => (
+              <button
+                key={`${r.url}-${i}`}
+                onClick={() => navigate(r.url)}
+                className="px-3 py-1.5 text-xs font-semibold bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-full border border-blue-100 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors no-tap-min"
+              >
+                {r.label}
+              </button>
+            ))}
           </div>
         </div>
       )}

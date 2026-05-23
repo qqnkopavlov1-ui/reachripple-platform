@@ -1,6 +1,6 @@
 ﻿import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, MapPin, X, ChevronDown, Filter } from "lucide-react";
+import { Search, MapPin, X, ChevronDown, Filter, Navigation } from "lucide-react";
 import api from "../../api/client";
 
 // Add styles for range inputs
@@ -73,6 +73,7 @@ const rangeStyles = `
 `;
 
 const STORAGE_KEY = "viva_last_location";
+const STORAGE_KEY_RECENT = "viva_recent_searches";
 
 const BODY_TYPES = [
   { value: "", label: "Any Body Type" },
@@ -110,6 +111,49 @@ export default function HeroSearchBar({ categorySlug = "escorts", defaultDistanc
   const [locationItems, setLocationItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pickedLocation, setPickedLocation] = useState(null); // { outcode, district, etc }
+  const [geoLoading, setGeoLoading] = useState(false);
+
+  // Use the device geolocation -> reverse lookup to outcode/district
+  const handleNearMe = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported on this device.');
+      return;
+    }
+    setGeoLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const { latitude, longitude } = pos.coords;
+          const res = await api.get('/location/reverse', { params: { lat: latitude, lng: longitude } });
+          const r = res.data?.result || res.data;
+          if (r && (r.label || r.outcode)) {
+            const item = {
+              label: r.label || (r.outcode && (r.ward || r.district) ? `${r.outcode} - ${r.ward || r.district}` : r.outcode),
+              value: r,
+            };
+            selectLocation(item);
+          } else {
+            // Fallback: drop a generic "Near me" pin with lat/lng query params
+            setLocation('Near me');
+            setPickedLocation({ label: 'Near me', lat: latitude, lng: longitude });
+          }
+        } catch (e) {
+          console.error('reverse lookup failed', e);
+          // Still let the user search by raw coords
+          setLocation('Near me');
+          setPickedLocation({ label: 'Near me', lat: pos.coords.latitude, lng: pos.coords.longitude });
+        } finally {
+          setGeoLoading(false);
+        }
+      },
+      (err) => {
+        console.warn('geolocation denied', err);
+        setGeoLoading(false);
+        alert('Could not get your location. Please enable location access in your browser settings.');
+      },
+      { enableHighAccuracy: false, timeout: 8000, maximumAge: 5 * 60 * 1000 }
+    );
+  };
 
   // Load last location
   useEffect(() => {
@@ -238,7 +282,20 @@ export default function HeroSearchBar({ categorySlug = "escorts", defaultDistanc
 
     const qs = params.toString();
     const targetCategory = categorySlug || "escorts";
-    navigate(`/${targetCategory}/${pathLoc}${qs ? `?${qs}` : ""}`);
+    const url = `/${targetCategory}/${pathLoc}${qs ? `?${qs}` : ""}`;
+
+    // Push to recent searches (last 6 distinct)
+    try {
+      const label = (v && v.label) || location.trim() || keywords.trim() || 'Recent search';
+      const entry = { url, label, q: keywords || null, ts: Date.now() };
+      const raw = localStorage.getItem(STORAGE_KEY_RECENT);
+      const arr = raw ? JSON.parse(raw) : [];
+      const filtered = arr.filter(it => it.url !== url);
+      filtered.unshift(entry);
+      localStorage.setItem(STORAGE_KEY_RECENT, JSON.stringify(filtered.slice(0, 6)));
+    } catch (e) { /* ignore */ }
+
+    navigate(url);
   };
 
   const handleKeyDown = (e) => {
@@ -297,30 +354,34 @@ export default function HeroSearchBar({ categorySlug = "escorts", defaultDistanc
                         }}
                         onKeyDown={handleKeyDown}
                         onFocus={() => locationItems.length > 0 && setMenuOpen(true)}
-                        className="w-full h-14 pl-12 pr-10 bg-zinc-50 dark:bg-black/20 border border-zinc-200 dark:border-zinc-700 rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-zinc-400 text-zinc-800 dark:text-zinc-100 font-medium"
+                        className="w-full h-14 pl-12 pr-24 bg-zinc-50 dark:bg-black/20 border border-zinc-200 dark:border-zinc-700 rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder:text-zinc-400 text-zinc-800 dark:text-zinc-100 font-medium"
                     />
                     <label className="absolute -top-2.5 left-4 bg-white dark:bg-zinc-900 px-1 text-[10px] font-bold uppercase tracking-wider text-zinc-400 group-focus-within:text-blue-500 transition-colors rounded">
                         Location
                     </label>
 
-                    {/* Clear Button */}
-                    {location && (
-                        <button 
-                            onClick={handleClear}
-                            className="absolute inset-y-0 right-3 flex items-center text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
-                        >
-                            <X size={16} />
-                        </button>
-                    )}
+                    {/* Near me */}
+                    <button
+                        type="button"
+                        onClick={handleNearMe}
+                        disabled={geoLoading}
+                        title="Use my current location"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 px-2.5 h-9 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold border border-blue-200 disabled:opacity-50 transition-colors no-tap-min"
+                    >
+                        {geoLoading
+                          ? <span className="w-3.5 h-3.5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                          : <Navigation size={14} strokeWidth={2.5} />}
+                        <span className="hidden sm:inline">Near me</span>
+                    </button>
 
                     {/* Validated Indicator */}
                     {pickedLocation && (
-                         <div className="absolute right-3 top-2 w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]" title="Location verified" />
+                         <div className="absolute right-24 top-2 w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]" title="Location verified" />
                     )}
 
                     {/* Loading */}
                     {loading && (
-                        <div className="absolute right-10 top-1/2 -translate-y-1/2 w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                        <div className="absolute right-24 top-1/2 -translate-y-1/2 w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
                     )}
 
                     {/* Dropdown */}
