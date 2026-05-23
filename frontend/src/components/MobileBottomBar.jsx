@@ -27,6 +27,8 @@ export default function MobileBottomBar() {
     "/escort/",
     "/category/",
     "/search",
+    "/profile/",
+    "/listing/",
   ];
   if (HIDDEN_PREFIXES.some((p) => pathname === p || pathname.startsWith(p))) {
     return null;
