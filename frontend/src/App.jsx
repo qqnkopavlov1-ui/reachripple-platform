@@ -10,6 +10,7 @@ import SkipLink from "./components/ui/SkipLink";
 import ScrollToTop from "./components/ScrollToTop";
 import AgeGateModal from "./components/trust/AgeGateModal";
 import MobileBottomBar from "./components/MobileBottomBar";
+import InstallAppPrompt from "./components/InstallAppPrompt";
 // import SupportChatWidget from "./components/SupportChatWidget"; // Removed: support chat widget deleted
 
 // Critical public pages (eager load for fast first paint)
@@ -293,6 +294,7 @@ export default function App() {
               </Suspense>
               </main>
               <MobileBottomBar />
+              <InstallAppPrompt />
               </ToastProviderGlobal>
           </AuthProvider>
         </ThemeProvider>
