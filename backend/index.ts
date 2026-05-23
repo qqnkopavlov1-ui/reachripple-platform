@@ -52,6 +52,7 @@ import adminNetwork from "./src/routes/adminNetwork";
 import auth from "./middleware/auth";
 import adminCheck from "./middleware/admin";
 import { errorHandler } from "./middleware/errorHandler";
+import { initSentry, sentryErrorHandler } from "./config/sentry";
 
 // Services
 import { initRedis } from "./services/cacheService";
@@ -87,6 +88,9 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const app = express();
+
+// ============ SENTRY (env-gated; no-op without SENTRY_DSN) ============
+initSentry();
 
 // Create HTTP server for Socket.io
 const httpServer = http.createServer(app);
@@ -264,6 +268,8 @@ app.use("/api/admin/network", auth, adminCheck, adminNetwork);
 app.use("/api/admin/seed", auth, adminCheck, adminSeed);
 
 // ============ ERROR HANDLING ============
+// Sentry first so it captures, then propagates to the central handler.
+app.use(sentryErrorHandler);
 // Central error handler — catches all thrown/next(err) errors
 app.use(errorHandler);
 

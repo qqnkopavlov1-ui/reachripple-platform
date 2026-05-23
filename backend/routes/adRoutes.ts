@@ -455,7 +455,20 @@ router.get("/publisher/:userId", async (req: Request, res: Response) => {
 });
 
 // Public - single ad view (moved after draft routes)
-router.get("/:id", getAdById);
+// Strict limiter: prevents detail-page scraping for phone/contact harvesting.
+const adDetailLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: process.env.NODE_ENV === "production" ? 30 : 200,
+  message: { error: "Too many requests for ad details. Please slow down.", retryAfter: 60 },
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => {
+    const fwd = req.headers["x-forwarded-for"];
+    const ip = fwd ? (Array.isArray(fwd) ? fwd[0] : fwd.split(",")[0]) : req.ip || "unknown";
+    return `ad-detail:${ip}`;
+  },
+});
+router.get("/:id", adDetailLimiter, getAdById);
 
 // User can create ads (auth required but not admin) - with image and video upload
 router.post("/", auth, adCreationRateLimiter, uploadAdMedia, createAd);

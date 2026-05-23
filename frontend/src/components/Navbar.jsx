@@ -1,7 +1,9 @@
 ﻿import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import NotificationCenter from "./NotificationCenter";
+import useSafeBrowsing from "../hooks/useSafeBrowsing";
 import { useAuth } from "../context/AuthContext";
 
 /**
@@ -20,6 +22,7 @@ export default function Navbar({ showSaved = true }) {
   const { isLoggedIn, user, isAdmin, logout } = useAuth();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [safeBrowsing, toggleSafeBrowsing] = useSafeBrowsing();
 
 
 
@@ -34,6 +37,18 @@ export default function Navbar({ showSaved = true }) {
 
         {/* Right side actions */}
         <div className="flex items-center gap-3">
+          <button
+            onClick={toggleSafeBrowsing}
+            className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors touch-target flex items-center justify-center"
+            title={safeBrowsing ? "Safe browsing ON — tap to show photos" : "Safe browsing OFF — photos visible"}
+            aria-label="Toggle safe browsing"
+          >
+            {safeBrowsing ? (
+              <EyeOff size={18} className="text-slate-700 dark:text-slate-300" />
+            ) : (
+              <Eye size={18} className="text-amber-600 dark:text-amber-400" />
+            )}
+          </button>
           <ThemeToggle />
           {isLoggedIn && <NotificationCenter />}
 

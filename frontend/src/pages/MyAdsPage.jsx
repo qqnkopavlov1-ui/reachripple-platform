@@ -1,10 +1,10 @@
 ﻿// src/pages/MyAdsPage.jsx
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Suspense, lazy } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/client";
 import NotificationsBanner from "../components/NotificationsBanner";
-import BoostModal from "../components/BoostModal";
+const BoostModal = lazy(() => import("../components/BoostModal"));
 import ConfirmModal from "../components/ConfirmModal";
 import { useToastContext } from "../context/ToastContextGlobal";
 import { getAssetUrl } from "../config/api";
@@ -523,14 +523,18 @@ export default function MyAdsPage() {
       </footer>
 
       {/* Boost Modal */}
-      <BoostModal
-        isOpen={boostModalOpen}
-        onClose={() => {
-          setBoostModalOpen(false);
-          setSelectedAd(null);
-        }}
-        ad={selectedAd}
-      />
+      {boostModalOpen && (
+        <Suspense fallback={null}>
+          <BoostModal
+            isOpen={boostModalOpen}
+            onClose={() => {
+              setBoostModalOpen(false);
+              setSelectedAd(null);
+            }}
+            ad={selectedAd}
+          />
+        </Suspense>
+      )}
 
       {/* Delete Confirmation Modal */}
       <ConfirmModal

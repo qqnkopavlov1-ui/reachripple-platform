@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.967.0",
+    "@sentry/node": "^8.55.2",
     "@types/sharp": "^0.31.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.9.0",

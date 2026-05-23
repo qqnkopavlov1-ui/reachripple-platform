@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import { Eye } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import useSafeBrowsing from "../hooks/useSafeBrowsing";
 import ProfileQuickViewModal from "./ProfileQuickViewModal";
 import { getAssetUrl, proxyImage } from "../config/api";
 
@@ -117,14 +118,17 @@ function AdCard({
   index = 0  // For performance tracking
 }) {
   const { isLoggedIn } = useAuth();
+  const [safeBrowsing] = useSafeBrowsing();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+  const [revealed, setRevealed] = useState(false);
 
   // Adult content blur logic
   const ADULT_CATEGORIES = ['escorts', 'adult-entertainment', 'trans-escorts', 'gay-escorts', 'adult-dating', 'swingers', 'straight-relationships', 'gay-and-lesbian'];
   const isAdultContent = ADULT_CATEGORIES.includes(ad.category);
-  const shouldBlur = !isLoggedIn && isAdultContent;
+  // Blur if: (a) logged-out viewer on adult, OR (b) safe-browsing pref ON and not yet revealed.
+  const shouldBlur = isAdultContent && ((!isLoggedIn) || (safeBrowsing && !revealed));
 
   // Determine image URL (supports string or {url} object) with full URL
   const rawImagePath =
@@ -266,11 +270,20 @@ function AdCard({
 
         {/* Adult Content Overlay */}
         {shouldBlur && imageLoaded && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/10">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (isLoggedIn) setRevealed(true);
+            }}
+            className="absolute inset-0 z-10 flex items-center justify-center bg-black/10 no-tap-min"
+            aria-label={isLoggedIn ? "Show photo" : "Sign in to view"}
+          >
             <span className="bg-black/60 backdrop-blur-md text-white/90 text-[10px] font-bold px-3 py-1.5 rounded-full border border-white/20 shadow-lg">
-              18+ Login
+              {isLoggedIn ? "Tap to view" : "18+ Login"}
             </span>
-          </div>
+          </button>
         )}
 
         {/* ===== BADGES STACK (top-left) ===== */}
