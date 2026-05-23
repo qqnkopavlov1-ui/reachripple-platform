@@ -887,17 +887,17 @@ const EscortProfilePage = () => {
                           <div className="flex items-center gap-3">
                             <span className="text-2xl">{info.icon}</span>
                             <div className="flex-1">
-                              <p className={`font-semibold ${info.featured ? 'text-blue-600' : 'text-gray-800'}`}>{info.label}</p>
+                              <p className={`font-semibold ${info.featured ? 'text-violet-700' : 'text-gray-800'}`}>{info.label}</p>
                               {info.tag && <p className="text-xs text-gray-400">{info.tag}</p>}
                             </div>
                             <div className="text-right">
-                              <p className={`text-xl font-black ${info.featured ? 'bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent' : 'text-gray-800'}`}>
+                              <p className={`text-xl font-black ${info.featured ? 'bg-gradient-to-r from-amber-500 to-violet-700 bg-clip-text text-transparent' : 'text-gray-800'}`}>
                                 £{typeof value === 'number' ? value.toLocaleString() : value}
                               </p>
                             </div>
                           </div>
                           {info.featured && (
-                            <span className="absolute -top-1 -right-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-[9px] font-bold shadow-lg">
+                            <span className="absolute -top-1 -right-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-500 to-violet-700 text-white text-[9px] font-bold shadow-lg">
                               ⭐ Popular
                             </span>
                           )}
