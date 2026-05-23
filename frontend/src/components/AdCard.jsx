@@ -244,8 +244,12 @@ function AdCard({
             fetchPriority={fetchPriority || "auto"}
             onLoad={() => setImageLoaded(true)}
             onError={() => { setImageError(true); setImageLoaded(true); }}
-            style={{ opacity: imageLoaded ? 1 : 0.7 }}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            style={{
+              opacity: imageLoaded ? 1 : 0,
+              transition: 'opacity 400ms ease-out, filter 400ms ease-out',
+              filter: imageLoaded ? 'blur(0)' : 'blur(8px)',
+            }}
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
         ) : (
           /* Category-aware placeholder — no image uploaded or image failed to load */
@@ -377,6 +381,18 @@ function AdCard({
                 />
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Price overlay chip (skimmable in grid) */}
+        {ad.price && !(isVip && showThumbnails) && (
+          <div className="absolute bottom-2 left-2 z-20">
+            <span className="inline-flex items-baseline gap-0.5 px-2 py-1 rounded-lg bg-black/65 backdrop-blur-sm text-white text-xs font-bold shadow-md">
+              £{ad.price}
+              {(ad.category === 'escorts' || ad.category === 'Escorts') && (
+                <span className="text-[10px] font-medium opacity-80">/hr</span>
+              )}
+            </span>
           </div>
         )}
       </div>
