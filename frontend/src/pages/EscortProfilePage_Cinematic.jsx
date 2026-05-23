@@ -392,6 +392,42 @@ const EscortProfilePage = () => {
         </div>
       </nav>
 
+      {/* ===== STICKY MINI-HEADER (shows on scroll past hero) ===== */}
+      <div
+        aria-hidden={heroInView}
+        className={`fixed top-16 left-0 right-0 z-40 transition-all duration-300 ${heroInView ? '-translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}
+      >
+        <div className="navbar-glass border-b border-white/10">
+          <div className="max-w-7xl mx-auto px-4 h-14 flex items-center gap-3">
+            {profile.gallery?.[0]?.src && (
+              <img
+                src={profile.gallery[0].src}
+                alt={profile.name}
+                className="w-9 h-9 rounded-full object-cover border border-white/20 flex-shrink-0"
+                loading="lazy"
+              />
+            )}
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5 text-white text-sm font-bold truncate">
+                {profile.name}
+                {profile.isVerified && (
+                  <Icons.Verified className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                )}
+              </div>
+              <div className="text-[11px] text-white/60 truncate">
+                {profile.area || profile.city || ''}
+              </div>
+            </div>
+            <a
+              href={`tel:${profile.phone}`}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 h-9 rounded-lg bg-amber-500 hover:bg-amber-400 text-white text-sm font-bold no-tap-min"
+            >
+              <Icons.Phone className="w-4 h-4" /> Call
+            </a>
+          </div>
+        </div>
+      </div>
+
       {/* ===== IMMERSIVE HERO SECTION ===== */}
       <header 
         ref={heroRef} 
@@ -1185,6 +1221,20 @@ const EscortProfilePage = () => {
       {/* ===== FLOATING BOTTOM CTA (Shows when hero scrolled out of view) ===== */}
       <div className={`fixed bottom-0 left-0 right-0 z-50 transition-all duration-300 ${heroInView ? 'translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}>
         <div className="p-3 sm:p-4 glass-card-dark border-t border-white/10 safe-area-bottom">
+          {/* Trust microcopy row */}
+          <div className="max-w-lg mx-auto flex items-center justify-center gap-3 text-[10px] sm:text-xs text-white/70 mb-2">
+            {profile.isVerified && (
+              <span className="flex items-center gap-1 text-blue-300">
+                <Icons.Verified className="w-3 h-3" /> Verified
+              </span>
+            )}
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Real photos
+            </span>
+            <span className="hidden sm:flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" /> Discreet
+            </span>
+          </div>
           <div className="max-w-lg mx-auto flex gap-2 sm:gap-3">
             <a href={`tel:${profile.phone}`} className="flex-1 btn-primary flex items-center justify-center gap-1.5 sm:gap-2 py-3 sm:py-4 text-sm sm:text-base">
               <Icons.Phone className="w-4 h-4 sm:w-5 sm:h-5" /> Call

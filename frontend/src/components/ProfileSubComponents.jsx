@@ -44,7 +44,79 @@ export const ErrorScreen = ({ error }) => (
    ─────────────────────────────────────────────── */
 export const Lightbox = ({ gallery, currentIndex, onClose, onChangeIndex }) => {
   const currentMedia = gallery?.[currentIndex];
+
+  // Pinch-zoom + double-tap state (must be declared before any early return)
+  const [zoom, setZoom] = React.useState(1);
+  const [offset, setOffset] = React.useState({ x: 0, y: 0 });
+  const pinchRef = React.useRef({ startDist: 0, startZoom: 1, startOffset: { x: 0, y: 0 }, lastTap: 0, panStart: null });
+
+  // Reset zoom when image changes or closes
+  React.useEffect(() => {
+    setZoom(1);
+    setOffset({ x: 0, y: 0 });
+  }, [currentIndex]);
+
   if (!currentMedia) return null;
+
+  const isImage = currentMedia.type !== 'video';
+
+  const dist = (a, b) => {
+    const dx = a.clientX - b.clientX;
+    const dy = a.clientY - b.clientY;
+    return Math.hypot(dx, dy);
+  };
+
+  const onTouchStart = (e) => {
+    if (!isImage) return;
+    if (e.touches.length === 2) {
+      pinchRef.current.startDist = dist(e.touches[0], e.touches[1]);
+      pinchRef.current.startZoom = zoom;
+      pinchRef.current.startOffset = { ...offset };
+    } else if (e.touches.length === 1) {
+      const now = Date.now();
+      if (now - pinchRef.current.lastTap < 300) {
+        // Double-tap toggles 1x <-> 2.5x
+        if (zoom > 1) {
+          setZoom(1);
+          setOffset({ x: 0, y: 0 });
+        } else {
+          setZoom(2.5);
+        }
+      }
+      pinchRef.current.lastTap = now;
+      if (zoom > 1) {
+        pinchRef.current.panStart = {
+          x: e.touches[0].clientX - offset.x,
+          y: e.touches[0].clientY - offset.y,
+        };
+      }
+    }
+  };
+
+  const onTouchMove = (e) => {
+    if (!isImage) return;
+    if (e.touches.length === 2 && pinchRef.current.startDist > 0) {
+      e.preventDefault();
+      const d = dist(e.touches[0], e.touches[1]);
+      const scale = (d / pinchRef.current.startDist) * pinchRef.current.startZoom;
+      setZoom(Math.max(1, Math.min(4, scale)));
+    } else if (e.touches.length === 1 && zoom > 1 && pinchRef.current.panStart) {
+      e.preventDefault();
+      setOffset({
+        x: e.touches[0].clientX - pinchRef.current.panStart.x,
+        y: e.touches[0].clientY - pinchRef.current.panStart.y,
+      });
+    }
+  };
+
+  const onTouchEnd = () => {
+    pinchRef.current.startDist = 0;
+    pinchRef.current.panStart = null;
+    if (zoom <= 1.05) {
+      setZoom(1);
+      setOffset({ x: 0, y: 0 });
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-[9999] bg-black/98 flex items-center justify-center animate-fadeIn" onClick={onClose}>
@@ -56,11 +128,28 @@ export const Lightbox = ({ gallery, currentIndex, onClose, onChangeIndex }) => {
         {currentIndex + 1} <span className="text-white/50 font-normal">of</span> {gallery.length}
       </span>
 
-      <div className="max-w-5xl max-h-[85vh] px-4" onClick={e => e.stopPropagation()}>
+      <div
+        className="max-w-5xl max-h-[85vh] px-4 select-none"
+        onClick={e => e.stopPropagation()}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        style={{ touchAction: zoom > 1 ? 'none' : 'pan-y' }}
+      >
         {currentMedia.type === 'video' ? (
           <video className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl" controls autoPlay><source src={currentMedia.src} /></video>
         ) : (
-          <img src={currentMedia.src} alt="" className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" />
+          <img
+            src={currentMedia.src}
+            alt=""
+            draggable={false}
+            className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
+            style={{
+              transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
+              transition: pinchRef.current.startDist || pinchRef.current.panStart ? 'none' : 'transform 0.2s ease-out',
+              transformOrigin: 'center center',
+            }}
+          />
         )}
       </div>
 
