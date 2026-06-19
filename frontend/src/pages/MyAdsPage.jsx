@@ -4,11 +4,12 @@ import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/client";
 import NotificationsBanner from "../components/NotificationsBanner";
-const BoostModal = lazy(() => import("../components/BoostModal"));
 import ConfirmModal from "../components/ConfirmModal";
 import { useToastContext } from "../context/ToastContextGlobal";
 import { getAssetUrl } from "../config/api";
 import ThemeToggle from "../components/ThemeToggle";
+
+const BoostModal = lazy(() => import("../components/BoostModal"));
 
 const getImageUrl = (path) => getAssetUrl(path);
 
