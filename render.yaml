@@ -34,13 +34,64 @@ services:
     buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: build
     headers:
+      # ---- Security ----
+      - path: /*
+        name: Strict-Transport-Security
+        value: max-age=63072000; includeSubDomains; preload
       - path: /*
         name: X-Frame-Options
         value: DENY
       - path: /*
         name: X-Content-Type-Options
         value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: Permissions-Policy
+        value: camera=(), microphone=(), geolocation=(self), payment=(self), interest-cohort=()
+      - path: /*
+        name: Cross-Origin-Opener-Policy
+        value: same-origin
+      # Start CSP in report-only mode so we don't break the app in production.
+      # Move to Content-Security-Policy once verified against your API + asset origins.
+      - path: /*
+        name: Content-Security-Policy-Report-Only
+        value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https: wss:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+      # ---- Caching ----
+      - path: /static/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /*.html
+        name: Cache-Control
+        value: no-cache, must-revalidate
+      - path: /sitemap.xml
+        name: Cache-Control
+        value: public, max-age=3600
+      - path: /robots.txt
+        name: Cache-Control
+        value: public, max-age=3600
     routes:
+      # Prerendered public pages — serve the per-route HTML file directly.
+      - type: rewrite
+        source: /about
+        destination: /about/index.html
+      - type: rewrite
+        source: /safety
+        destination: /safety/index.html
+      - type: rewrite
+        source: /privacy
+        destination: /privacy/index.html
+      - type: rewrite
+        source: /terms
+        destination: /terms/index.html
+      - type: rewrite
+        source: /contact
+        destination: /contact/index.html
+      - type: rewrite
+        source: /categories
+        destination: /categories/index.html
+      # SPA fallback — every other path is handled by the React app shell.
       - type: rewrite
         source: /*
         destination: /index.html

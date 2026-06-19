@@ -55,6 +55,7 @@ const AdminAgencyVerificationPage = React.lazy(() => import("./pages/AdminAgency
 const AgencyDashboardPage = React.lazy(() => import("./pages/AgencyDashboardPage.tsx"));
 
 // Lazy-loaded static pages
+const AboutPage = React.lazy(() => import("./pages/AboutPage.jsx"));
 const SafetyPage = React.lazy(() => import("./pages/SafetyPage.jsx"));
 const ContactPage = React.lazy(() => import("./pages/ContactPage.jsx"));
 const TermsPage = React.lazy(() => import("./pages/TermsPage.jsx"));
@@ -249,6 +250,7 @@ export default function App() {
             path="/help" 
             element={<HelpPage />} 
           />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/safety" element={<SafetyPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/terms" element={<TermsPage />} />

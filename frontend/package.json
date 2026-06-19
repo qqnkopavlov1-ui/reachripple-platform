@@ -23,7 +23,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && node scripts/prerender.cjs",
+    "build:cra": "react-scripts build",
+    "prerender": "node scripts/prerender.cjs",
     "test": "react-scripts test",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",

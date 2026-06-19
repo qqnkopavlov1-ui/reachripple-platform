@@ -1,7 +1,10 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
+Allow: /
 Disallow: /admin
+Disallow: /admin/
 Disallow: /api
+Disallow: /api/
 Disallow: /dashboard
 Disallow: /account
 Disallow: /my-ads
@@ -9,6 +12,14 @@ Disallow: /create-ad
 Disallow: /edit-ad
 Disallow: /verify-email
 Disallow: /reset-password
+Disallow: /forgot-password
 Disallow: /agency
+Disallow: /notifications
+Disallow: /saved
+Disallow: /pricing
+Disallow: /verification
+Disallow: /analytics
+Disallow: /growth
+Disallow: /auth/
 
 Sitemap: https://reachripple-live-web.onrender.com/sitemap.xml

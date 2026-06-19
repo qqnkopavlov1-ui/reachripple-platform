@@ -4,48 +4,288 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f59e0b" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#f59e0b" media="(prefers-color-scheme: dark)" />
-    <meta
-      name="description"
-      content="ReachRipple — Premium Classifieds & Services. Verified UK listings for escorts, services, and more. Locally focused, trusted, 18+ where applicable."
-    />
-    <meta name="keywords" content="classifieds UK, premium services, verified listings, escorts UK, London, Manchester, Birmingham" />
-    <meta name="author" content="ReachRipple" />
-    <meta name="rating" content="adult" />
-    <meta property="og:title" content="ReachRipple — Premium Classifieds & Services" />
-    <meta property="og:description" content="Premium UK classifieds & services. Verified listings, locally focused, trusted." />
-    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#f59e0b" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="ReachRipple" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <meta data-rr-seo="start" />
+    <title>ReachRipple | Verified Premium Classifieds &amp; Services</title>
+    <meta name="description" content="Browse verified premium service listings, compare providers, and contact trusted local professionals safely on ReachRipple." />
+    <link rel="canonical" href="https://reachripple-live-web.onrender.com/" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta property="og:site_name" content="ReachRipple" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://reachripple-live-web.onrender.com/" />
+    <meta property="og:title" content="ReachRipple | Verified Premium Classifieds &amp; Services" />
+    <meta property="og:description" content="Browse verified premium service listings, compare providers, and contact trusted local professionals safely on ReachRipple." />
+    <meta property="og:image" content="https://reachripple-live-web.onrender.com/reachripple.jpg" />
+    <meta property="og:image:alt" content="ReachRipple — premium classifieds and services" />
+    <meta property="og:locale" content="en_GB" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ReachRipple | Verified Premium Classifieds &amp; Services" />
+    <meta name="twitter:description" content="Browse verified premium service listings, compare providers, and contact trusted local professionals safely on ReachRipple." />
+    <meta name="twitter:image" content="https://reachripple-live-web.onrender.com/reachripple.jpg" />
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Organization","name":"ReachRipple","url":"https://reachripple-live-web.onrender.com/","logo":"https://reachripple-live-web.onrender.com/logomark-512.png","sameAs":[]}
+    </script>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebSite","name":"ReachRipple","url":"https://reachripple-live-web.onrender.com/","potentialAction":{"@type":"SearchAction","target":"https://reachripple-live-web.onrender.com/search?q={search_term_string}","query-input":"required name=search_term_string"}}
+    </script>
+    <meta data-rr-seo="end" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet" />
-    <title>ReachRipple — Premium Classifieds & Services</title>
+
+    <style>
+      /* Minimal critical CSS for prerendered shell (visible before React mounts) */
+      .rr-shell{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#18181b;background:#fff;line-height:1.55;margin:0}
+      .rr-shell *{box-sizing:border-box}
+      .rr-shell a{color:inherit;text-decoration:none}
+      .rr-shell a:focus-visible,.rr-shell button:focus-visible{outline:2px solid #7c3aed;outline-offset:2px;border-radius:6px}
+      .rr-container{max-width:1120px;margin:0 auto;padding:0 1.25rem}
+      .rr-nav{display:flex;align-items:center;justify-content:space-between;padding:0.9rem 1.25rem;border-bottom:1px solid #e4e4e7;background:#fff}
+      .rr-nav-brand{display:flex;align-items:center;gap:0.6rem;font-weight:800;font-size:1.05rem}
+      .rr-nav-brand img{width:32px;height:32px;border-radius:8px}
+      .rr-nav-brand .rr-blue{color:#2563eb}
+      .rr-nav-brand .rr-purple{color:#7c3aed}
+      .rr-nav-links{display:flex;gap:0.25rem;align-items:center;flex-wrap:wrap}
+      .rr-nav-links a{padding:0.45rem 0.75rem;font-size:0.9rem;color:#3f3f46;border-radius:8px}
+      .rr-nav-links a:hover{background:#f4f4f5;color:#18181b}
+      .rr-cta{display:inline-block;font-weight:600;padding:0.6rem 1rem;border-radius:10px;font-size:0.95rem;border:1px solid transparent;transition:transform .12s ease,background .12s ease}
+      .rr-cta-primary{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff}
+      .rr-cta-primary:hover{transform:translateY(-1px)}
+      .rr-cta-secondary{background:#fff;color:#18181b;border-color:#d4d4d8}
+      .rr-cta-secondary:hover{background:#f4f4f5}
+      .rr-hero{padding:3rem 1.25rem 2.5rem;background:linear-gradient(180deg,#faf5ff 0%,#fff 100%)}
+      .rr-hero h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(2rem,5vw,3.25rem);line-height:1.1;margin:0 0 1rem;font-weight:700;letter-spacing:-0.01em}
+      .rr-hero p.rr-sub{font-size:clamp(1rem,1.6vw,1.2rem);color:#52525b;max-width:46rem;margin:0 0 1.5rem}
+      .rr-hero-ctas{display:flex;gap:0.75rem;flex-wrap:wrap}
+      .rr-trust{display:flex;flex-wrap:wrap;gap:0.5rem 1.25rem;margin-top:1.75rem;font-size:0.9rem;color:#3f3f46}
+      .rr-trust span{display:inline-flex;align-items:center;gap:0.4rem}
+      .rr-trust span::before{content:"";width:8px;height:8px;border-radius:999px;background:#10b981;display:inline-block}
+      .rr-section{padding:2.5rem 1.25rem;border-top:1px solid #f4f4f5}
+      .rr-section h2{font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);margin:0 0 0.5rem;font-weight:700}
+      .rr-section p.rr-lede{color:#52525b;margin:0 0 1.5rem;max-width:42rem}
+      .rr-grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+      .rr-card{background:#fff;border:1px solid #e4e4e7;border-radius:14px;padding:1.25rem;transition:border-color .15s ease,transform .15s ease}
+      .rr-card:hover{border-color:#a78bfa;transform:translateY(-2px)}
+      .rr-card h3{margin:0 0 0.4rem;font-size:1.05rem;font-weight:700}
+      .rr-card p{margin:0;color:#52525b;font-size:0.92rem}
+      .rr-step{display:flex;gap:0.85rem;align-items:flex-start}
+      .rr-step .rr-num{flex:none;width:32px;height:32px;border-radius:999px;background:#ede9fe;color:#6d28d9;display:flex;align-items:center;justify-content:center;font-weight:700}
+      .rr-footer{padding:2rem 1.25rem;border-top:1px solid #e4e4e7;background:#fafafa;color:#52525b;font-size:0.88rem}
+      .rr-footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem;margin-bottom:1.25rem}
+      .rr-footer-grid h4{font-size:0.78rem;text-transform:uppercase;letter-spacing:0.08em;color:#71717a;margin:0 0 0.5rem}
+      .rr-footer-grid ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.35rem}
+      .rr-footer-grid a{color:#3f3f46}
+      .rr-footer-grid a:hover{color:#18181b;text-decoration:underline}
+      .rr-footer-meta{padding-top:1.25rem;border-top:1px solid #e4e4e7;display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:space-between}
+      .rr-cta-section{background:#0f172a;color:#fff;padding:2.75rem 1.25rem;text-align:center}
+      .rr-cta-section h2{color:#fff;margin:0 0 0.5rem;font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.5rem,3vw,2rem)}
+      .rr-cta-section p{color:#cbd5e1;margin:0 auto 1.5rem;max-width:36rem}
+      @media (prefers-color-scheme: dark){
+        .rr-shell{background:#0a0a0a;color:#fafafa}
+        .rr-nav,.rr-hero{background:#0a0a0a}
+        .rr-hero{background:linear-gradient(180deg,#1e1b4b 0%,#0a0a0a 100%)}
+        .rr-nav{border-bottom-color:#27272a}
+        .rr-nav-links a{color:#a1a1aa}
+        .rr-nav-links a:hover{background:#18181b;color:#fafafa}
+        .rr-card{background:#18181b;border-color:#27272a}
+        .rr-card p,.rr-hero p.rr-sub,.rr-section p.rr-lede{color:#a1a1aa}
+        .rr-cta-secondary{background:#18181b;color:#fafafa;border-color:#3f3f46}
+        .rr-footer{background:#0a0a0a;color:#a1a1aa;border-top-color:#27272a}
+        .rr-footer-grid a{color:#d4d4d8}
+        .rr-footer-meta{border-top-color:#27272a}
+      }
+    </style>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    
+    <div id="root"><template data-rr-prerender="start"></template>
+      <div class="rr-shell" data-prerender="home">
+        <a href="#main" style="position:absolute;left:-9999px;top:auto" onfocus="this.style.left='1rem';this.style.top='1rem';this.style.background='#fff';this.style.color='#18181b';this.style.padding='0.5rem 0.75rem';this.style.borderRadius='8px';this.style.zIndex='9999';this.style.outline='2px solid #7c3aed'">Skip to main content</a>
+        <header>
+          <nav class="rr-nav" aria-label="Primary">
+            <a class="rr-nav-brand" href="/" aria-label="ReachRipple home">
+              <img src="/logomark.png" alt="" width="32" height="32" />
+              <span><span class="rr-blue">Reach</span><span class="rr-purple">Ripple</span></span>
+            </a>
+            <div class="rr-nav-links">
+              <a href="/escorts">Browse</a>
+              <a href="/about">About</a>
+              <a href="/safety">Safety</a>
+              <a href="/contact">Contact</a>
+              <a class="rr-cta rr-cta-secondary" href="/login">Sign in</a>
+              <a class="rr-cta rr-cta-primary" href="/signup">Post a listing</a>
+            </div>
+          </nav>
+        </header>
+        <main id="main">
+          <section class="rr-hero" aria-labelledby="rr-hero-h1">
+            <div class="rr-container">
+              <h1 id="rr-hero-h1">ReachRipple — Premium Classifieds for Trusted Local Services</h1>
+              <p class="rr-sub">Discover verified service listings, compare providers, and contact trusted professionals safely. UK-focused, mobile-first, and built for transparency.</p>
+              <div class="rr-hero-ctas">
+                <a class="rr-cta rr-cta-primary" href="/escorts">Browse listings</a>
+                <a class="rr-cta rr-cta-secondary" href="/signup">Post a listing</a>
+              </div>
+              <div class="rr-trust" aria-label="Trust signals">
+                <span>Verified profiles</span>
+                <span>Moderated listings</span>
+                <span>Privacy-first contact</span>
+                <span>Report abuse</span>
+                <span>Clear safety rules</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="rr-section" aria-labelledby="rr-how-h2">
+            <div class="rr-container">
+              <h2 id="rr-how-h2">How it works</h2>
+              <p class="rr-lede">Three simple steps to find or offer trusted services on ReachRipple.</p>
+              <div class="rr-grid-3">
+                <div class="rr-card">
+                  <div class="rr-step"><div class="rr-num">1</div><div>
+                    <h3>Search by category or location</h3>
+                    <p>Filter by what you need and where you are. Results stay focused on your area.</p>
+                  </div></div>
+                </div>
+                <div class="rr-card">
+                  <div class="rr-step"><div class="rr-num">2</div><div>
+                    <h3>Compare verified listings</h3>
+                    <p>Review profiles, photos, and verification badges before reaching out.</p>
+                  </div></div>
+                </div>
+                <div class="rr-card">
+                  <div class="rr-step"><div class="rr-num">3</div><div>
+                    <h3>Contact safely</h3>
+                    <p>Reach providers through privacy-first channels. Report anything suspicious.</p>
+                  </div></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="rr-section" aria-labelledby="rr-cats-h2">
+            <div class="rr-container">
+              <h2 id="rr-cats-h2">Popular categories</h2>
+              <p class="rr-lede">Browse top categories on ReachRipple.</p>
+              <div class="rr-grid-3">
+                <a class="rr-card" href="/category/services"><h3>Services</h3><p>Trades, tutors, beauty, events, and business services.</p></a>
+                <a class="rr-card" href="/category/buy-sell"><h3>Buy &amp; Sell</h3><p>Electronics, furniture, fashion, and collectibles.</p></a>
+                <a class="rr-card" href="/category/jobs"><h3>Jobs</h3><p>Full-time, part-time, freelance, and student roles.</p></a>
+                <a class="rr-card" href="/category/property"><h3>Property</h3><p>Houses, flats, rooms, and commercial space.</p></a>
+                <a class="rr-card" href="/category/vehicles"><h3>Vehicles</h3><p>Cars, vans, motorbikes, and parts.</p></a>
+                <a class="rr-card" href="/escorts"><h3>Adult (18+)</h3><p>Adult directory. Age-gated. Verified providers only.</p></a>
+              </div>
+            </div>
+          </section>
+
+          <section class="rr-section" aria-labelledby="rr-why-h2">
+            <div class="rr-container">
+              <h2 id="rr-why-h2">Why ReachRipple</h2>
+              <p class="rr-lede">A premium classifieds experience built around trust, clarity, and safety.</p>
+              <div class="rr-grid-3">
+                <div class="rr-card"><h3>Verified profiles</h3><p>Providers can complete identity verification to earn a verified badge.</p></div>
+                <div class="rr-card"><h3>Moderated listings</h3><p>Listings are reviewed against our content rules before going live.</p></div>
+                <div class="rr-card"><h3>Privacy-first contact</h3><p>Reach providers without exposing personal details by default.</p></div>
+                <div class="rr-card"><h3>Clear safety guidance</h3><p>Practical safety tips for every category and location.</p></div>
+                <div class="rr-card"><h3>Easy reporting</h3><p>Flag suspicious listings or messages in one click.</p></div>
+                <div class="rr-card"><h3>Mobile-first</h3><p>Fast, responsive, and accessible on every device.</p></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="rr-section" aria-labelledby="rr-safety-h2">
+            <div class="rr-container">
+              <h2 id="rr-safety-h2">Safety &amp; verification</h2>
+              <p class="rr-lede">We combine moderation, verification, and reporting tools to keep ReachRipple trustworthy. See our <a href="/safety">Safety guide</a> for the full overview.</p>
+              <div class="rr-grid-3">
+                <div class="rr-card"><h3>Scam awareness</h3><p>Common scam patterns and how to avoid them.</p></div>
+                <div class="rr-card"><h3>Provider verification</h3><p>How verification works and what badges mean.</p></div>
+                <div class="rr-card"><h3>Reporting &amp; takedown</h3><p>Flag content; our moderators review reports promptly.</p></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="rr-cta-section" aria-labelledby="rr-cta-h2">
+            <div class="rr-container">
+              <h2 id="rr-cta-h2">Ready to get started?</h2>
+              <p>Browse verified listings or post your own in minutes.</p>
+              <div class="rr-hero-ctas" style="justify-content:center">
+                <a class="rr-cta rr-cta-primary" href="/escorts">Browse listings</a>
+                <a class="rr-cta rr-cta-secondary" href="/signup">Post a listing</a>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <footer class="rr-footer">
+          <div class="rr-container">
+            <div class="rr-footer-grid">
+              <div>
+                <h4>ReachRipple</h4>
+                <ul>
+                  <li><a href="/about">About</a></li>
+                  <li><a href="/contact">Contact</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4>Trust &amp; safety</h4>
+                <ul>
+                  <li><a href="/safety">Safety tips</a></li>
+                  <li><a href="/online-safety">Online Safety Act</a></li>
+                  <li><a href="/modern-slavery">Modern slavery</a></li>
+                  <li><a href="/law-enforcement">Law enforcement</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4>Legal</h4>
+                <ul>
+                  <li><a href="/privacy">Privacy policy</a></li>
+                  <li><a href="/terms">Terms of service</a></li>
+                  <li><a href="/cookies">Cookies</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4>Categories</h4>
+                <ul>
+                  <li><a href="/category/services">Services</a></li>
+                  <li><a href="/category/buy-sell">Buy &amp; Sell</a></li>
+                  <li><a href="/category/jobs">Jobs</a></li>
+                  <li><a href="/escorts">Adult (18+)</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="rr-footer-meta">
+              <span>© <span id="rr-year">2026</span> ReachRipple. All rights reserved.</span>
+              <span>UK-focused premium classifieds. 18+ where applicable.</span>
+            </div>
+          </div>
+        </footer>
+      </div>
+      <template data-rr-prerender="end"></template></div>
+    <noscript>
+      <div style="padding:1rem;text-align:center;background:#fef3c7;color:#92400e">
+        JavaScript is disabled. The pages above are fully readable, but search and account features need JavaScript enabled.
+      </div>
+    </noscript>
+
     <!-- Service Worker Registration -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/service-worker.js')
             .then((registration) => {
-              console.log('[App] SW registered:', registration.scope);
-              
-              // Check for updates
               registration.addEventListener('updatefound', () => {
                 const newWorker = registration.installing;
                 if (newWorker) {
                   newWorker.addEventListener('statechange', () => {
                     if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                      // New content available, show update prompt
                       if (confirm('New version available! Reload to update?')) {
                         newWorker.postMessage('skipWaiting');
                         window.location.reload();
@@ -55,11 +295,10 @@
                 }
               });
             })
-            .catch((error) => {
-              console.log('[App] SW registration failed:', error);
-            });
+            .catch(() => {});
         });
       }
+      try { document.getElementById('rr-year').textContent = String(new Date().getFullYear()); } catch (e) {}
     </script>
   </body>
 </html>
