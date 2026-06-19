@@ -1,4 +1,4 @@
-﻿// src/pages/EditAdPage_Luxury.jsx - Luxury Ad Editing with EscortProfilePage styling
+// src/pages/EditAdPage_Luxury.jsx - Luxury Ad Editing with EscortProfilePage styling
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams, Link } from "react-router-dom";
@@ -284,22 +284,68 @@ function EditAdPageLuxury() {
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files || []);
     const MAX_SIZE = 5 * 1024 * 1024;
+    const COMPRESS_THRESHOLD = 1.5 * 1024 * 1024;
 
-    files.forEach(file => {
-      if (file.size > MAX_SIZE) {
-        showErrorToast(`Image too large: ${file.name}`);
-        return;
-      }
-
+    const compressImage = (file) => new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = (evt) => {
-        setImages(prev => [...prev, {
-          file,
-          preview: evt.target.result
-        }]);
+      reader.onload = (ev) => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX_DIM = 2000;
+          let { width, height } = img;
+          if (width > MAX_DIM || height > MAX_DIM) {
+            const scale = Math.min(MAX_DIM / width, MAX_DIM / height);
+            width = Math.round(width * scale);
+            height = Math.round(height * scale);
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+          const tryQuality = (q) => {
+            canvas.toBlob((blob) => {
+              if (!blob) return reject(new Error('compression failed'));
+              if (blob.size <= MAX_SIZE || q <= 0.4) {
+                const compressedFile = new File([blob], file.name.replace(/\.\w+$/, '.jpg'), { type: 'image/jpeg' });
+                const r2 = new FileReader();
+                r2.onload = (e2) => resolve({ file: compressedFile, preview: e2.target.result });
+                r2.readAsDataURL(compressedFile);
+              } else {
+                tryQuality(q - 0.1);
+              }
+            }, 'image/jpeg', q);
+          };
+          tryQuality(0.85);
+        };
+        img.onerror = () => reject(new Error('image load failed'));
+        img.src = ev.target.result;
       };
+      reader.onerror = () => reject(new Error('read failed'));
       reader.readAsDataURL(file);
     });
+
+    const readAsIs = (file) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (ev) => resolve({ file, preview: ev.target.result });
+      reader.onerror = () => reject(new Error('read failed'));
+      reader.readAsDataURL(file);
+    });
+
+    files.forEach(async (file) => {
+      try {
+        const needsCompress = file.size > COMPRESS_THRESHOLD || /image\/(heic|heif)/i.test(file.type);
+        const result = needsCompress ? await compressImage(file) : await readAsIs(file);
+        if (result.file.size > MAX_SIZE) {
+          showErrorToast(`Image still too large after compression: ${file.name}`);
+          return;
+        }
+        setImages(prev => [...prev, result]);
+      } catch (err) {
+        showErrorToast(`Could not read image: ${file.name}`);
+      }
+    });
+
+    if (e.target) e.target.value = '';
   };
 
   const handleRemoveImage = (index, isExisting = false) => {
