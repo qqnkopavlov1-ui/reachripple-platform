@@ -179,10 +179,10 @@ const PAGES = [
   },
   {
     slug: 'safety',
-    title: 'Safety &amp; Verification | ReachRipple',
+    title: 'Safety & Verification | ReachRipple',
     description: 'How ReachRipple verifies providers, moderates listings, and helps you stay safe. Includes scam awareness, reporting, and prohibited content rules.',
     breadcrumb: 'Safety',
-    heading: 'Safety &amp; verification',
+    heading: 'Safety & verification',
     lede: 'Practical guidance for using ReachRipple safely, plus how to report concerns and how our moderation team responds.',
     jsonLd: [ORG_LD, breadcrumbLd([{ name: 'Home', path: '/' }, { name: 'Safety', path: '/safety' }])],
     sections: [
@@ -191,7 +191,7 @@ const PAGES = [
       { title: 'Provider verification', body: 'Providers can complete identity verification to earn a verified badge. Verification is optional, clearly labelled, and can be revoked.' },
       { title: 'Privacy guidance', items: ['Use platform messaging before sharing personal contact details.', 'Avoid sharing IDs, financial info, or home addresses with unverified users.', 'Report harassment immediately.'] },
       { title: 'Prohibited content', items: ['No content involving minors, trafficking, or coercion.', 'No misleading, fraudulent, or illegal listings.', 'No hate speech, harassment, or doxxing.'] },
-      { title: 'Moderation &amp; takedown', body: 'Listings are reviewed against our content rules before going live, and we accept reports continuously after publication. Confirmed violations are removed; serious cases are escalated to law enforcement where appropriate.' },
+      { title: 'Moderation & takedown', body: 'Listings are reviewed against our content rules before going live, and we accept reports continuously after publication. Confirmed violations are removed; serious cases are escalated to law enforcement where appropriate.' },
     ],
   },
   {
@@ -224,7 +224,7 @@ const PAGES = [
   },
   {
     slug: 'contact',
-    title: 'Contact ReachRipple | Support &amp; Reports',
+    title: 'Contact ReachRipple | Support & Reports',
     description: 'Contact ReachRipple support, report abuse, or submit a law enforcement request. We reply to verified queries promptly.',
     breadcrumb: 'Contact',
     heading: 'Contact ReachRipple',
@@ -239,7 +239,7 @@ const PAGES = [
   {
     slug: 'categories',
     title: 'Browse Categories | ReachRipple Classifieds',
-    description: 'Browse ReachRipple categories: services, jobs, property, vehicles, buy &amp; sell, and the age-gated adult directory.',
+    description: 'Browse ReachRipple categories: services, jobs, property, vehicles, buy & sell, and the age-gated adult directory.',
     breadcrumb: 'Categories',
     heading: 'Browse categories',
     lede: 'Pick a category to start exploring listings on ReachRipple.',
