@@ -1,4 +1,4 @@
-﻿// src/pages/SearchPage.jsx — Keyword search across ALL categories (no escort bias)
+// src/pages/SearchPage.jsx — Keyword search across ALL categories (no escort bias)
 import React, { useState, useEffect, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";

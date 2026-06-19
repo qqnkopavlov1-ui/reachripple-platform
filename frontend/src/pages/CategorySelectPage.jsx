@@ -1,4 +1,4 @@
-﻿// src/pages/CategorySelectPage.jsx - Category selection before ad creation
+// src/pages/CategorySelectPage.jsx - Category selection before ad creation
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, Link } from "react-router-dom";

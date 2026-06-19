@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { X, Star, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { getAssetUrl } from '../config/api';

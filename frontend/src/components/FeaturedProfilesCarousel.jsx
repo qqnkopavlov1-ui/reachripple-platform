@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useCallback } from 'react'; // Verified build
+import React, { useState, useEffect, useCallback } from 'react'; // Verified build
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { getAssetUrl } from '../config/api';

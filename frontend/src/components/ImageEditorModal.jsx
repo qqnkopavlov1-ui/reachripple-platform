@@ -1,4 +1,4 @@
-﻿import React, { useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import { X, RotateCw, RotateCcw, Check, Crop as CropIcon } from "lucide-react";
 

@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 
 /**
  * FilterSidebar — desktop sidebar with all filter options.

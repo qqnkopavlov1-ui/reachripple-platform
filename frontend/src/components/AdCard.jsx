@@ -1,4 +1,4 @@
-﻿import React, { useState, memo } from 'react'; // Verified build 
+import React, { useState, memo } from 'react'; // Verified build 
 import { Link } from "react-router-dom";
 import { Eye } from "lucide-react";
 import { useAuth } from "../context/AuthContext";

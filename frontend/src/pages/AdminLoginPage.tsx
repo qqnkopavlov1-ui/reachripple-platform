@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { adminLogin } from "../api/auth";
 
 export default function AdminLoginPage() {

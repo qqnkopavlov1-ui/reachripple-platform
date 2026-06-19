@@ -88,11 +88,6 @@ function LegacyCategoryRedirect({ categorySlug }) {
 }
 
 
-// Legacy /search route kept for backwards compatibility — now renders SearchPage directly
-function LegacySearchRedirect() {
-  return <SearchPage />;
-}
-
 // Redirect /ads/:id → /profile/:id (single canonical profile page)
 function AdsRedirect() {
   const { id } = useParams();

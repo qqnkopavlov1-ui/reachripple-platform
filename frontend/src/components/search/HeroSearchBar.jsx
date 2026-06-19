@@ -1,6 +1,6 @@
-﻿import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, MapPin, X, ChevronDown, Filter, Navigation } from "lucide-react";
+import { Search, MapPin, ChevronDown, Filter, Navigation } from "lucide-react";
 import api from "../../api/client";
 
 // Add styles for range inputs
@@ -302,6 +302,7 @@ export default function HeroSearchBar({ categorySlug = "escorts", defaultDistanc
     if (e.key === "Enter") handleSearch();
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleClear = () => {
     setLocation("");
     setPickedLocation(null);

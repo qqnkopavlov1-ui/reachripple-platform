@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Platform Categories Configuration
  *
  * Defines all categories available on the platform.

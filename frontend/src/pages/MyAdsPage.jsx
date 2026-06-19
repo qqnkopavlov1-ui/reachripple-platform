@@ -1,4 +1,4 @@
-﻿// src/pages/MyAdsPage.jsx
+// src/pages/MyAdsPage.jsx
 import React, { useState, useEffect, useCallback, Suspense, lazy } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate } from "react-router-dom";

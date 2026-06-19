@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 
 /**
  * FilterBar — mobile-only horizontal filter controls.

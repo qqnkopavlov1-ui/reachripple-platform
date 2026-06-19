@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getAdminStats, AdminStats } from "../api/admin";
 import { Link } from "react-router-dom";
 import { ErrorAlert } from "../components/Alerts";

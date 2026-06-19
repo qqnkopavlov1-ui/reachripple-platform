@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef, useMemo, useCallback, useState } from "react";
+import React, { useEffect, useRef, useMemo, useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAds } from "../api/ads";
 import { getHomeData } from "../api/boost";
@@ -136,6 +136,7 @@ export default function ReachRippleHomePage() {
 
   useEffect(() => {
     fetchAds();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Build VIP, Popular lists from server-ranked data

@@ -1,4 +1,4 @@
-﻿// src/components/BoostModal.jsx
+// src/components/BoostModal.jsx
 import React, { useState, useEffect } from 'react';
 import { getBoostPricing, purchaseBoost } from '../api/boost';
 import { useToastContext } from '../context/ToastContextGlobal';

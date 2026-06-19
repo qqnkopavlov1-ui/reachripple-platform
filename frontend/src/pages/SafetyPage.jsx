@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Shield, Eye, AlertTriangle, Lock, MapPin, Phone, MessageCircle } from 'lucide-react';
 import Navbar from '../components/Navbar';

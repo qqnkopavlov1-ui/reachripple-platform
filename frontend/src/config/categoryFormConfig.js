@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Category-specific form configuration.
  * Each category defines its own fields, services, pricing, and placeholders
  * so the ad creation form adapts to the category's purpose.

@@ -228,10 +228,17 @@ const requestLoggingMiddleware = (
 const sentryErrorHandler = () => {
   try {
     const Sentry = require("@sentry/node");
-    return Sentry.Handlers.errorHandler();
+    // v8+ exposes a top-level expressErrorHandler; v7 used Sentry.Handlers.errorHandler.
+    if (typeof Sentry.expressErrorHandler === "function") {
+      return Sentry.expressErrorHandler();
+    }
+    if (Sentry.Handlers && typeof Sentry.Handlers.errorHandler === "function") {
+      return Sentry.Handlers.errorHandler();
+    }
+    return (_err: any, _req: any, _res: any, next: any) => next();
   } catch (err) {
     // Sentry not available, return no-op middleware
-    return (err: any, req: any, res: any, next: any) => {
+    return (_err: any, _req: any, _res: any, next: any) => {
       next();
     };
   }

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import DOMPurify from 'dompurify';
@@ -138,6 +138,8 @@ export default function ListingProfilePage() {
         setSimilarListings(filtered.slice(0, 4));
       })
       .catch(() => {});
+    // ADULT_CATEGORIES is a module-level constant; safe to omit from deps.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile?._id, id]);
 
   // Keyboard nav for lightbox

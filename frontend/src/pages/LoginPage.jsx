@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { login, getOAuthConfig } from "../api/auth";
@@ -7,7 +7,7 @@ import { validators } from "../utils/formValidation";
 import { LoadingButton } from "../components/ui/LoadingButton";
 import ThemeToggle from "../components/ThemeToggle";
 
-const SAFE_NEXT_RE = /^\/[a-z0-9\-\/_?=&%.]*$/i;
+const SAFE_NEXT_RE = /^\/[a-z0-9\-/_?=&%.]*$/i;
 const safeNext = (raw) => (raw && SAFE_NEXT_RE.test(raw) && !raw.startsWith("//") ? raw : null);
 
 export default function LoginPage() {

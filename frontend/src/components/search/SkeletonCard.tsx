@@ -1,4 +1,4 @@
-﻿import React, { memo } from "react";
+import React, { memo } from "react";
 
 /**
  * SkeletonCard - Animated loading placeholder for search results

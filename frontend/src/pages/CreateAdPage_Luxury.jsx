@@ -1,4 +1,4 @@
-﻿// src/pages/CreateAdPage_Luxury.jsx - Luxury Ad Creation with EscortProfilePage styling
+// src/pages/CreateAdPage_Luxury.jsx - Luxury Ad Creation with EscortProfilePage styling
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, Link } from "react-router-dom";

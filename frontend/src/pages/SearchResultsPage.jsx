@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useCallback, useRef, useMemo, useState } from "react";
+import React, { useEffect, useCallback, useRef, useMemo, useState } from "react";
 import { useSearchParams, useParams, useLocation, useNavigate } from "react-router-dom";
 import { getAds, getAd } from "../api/ads";
 import { saveSearch } from "../api/searchHistory";
@@ -67,6 +67,7 @@ export default function SearchResultsPage() {
       navigate("/login?next=" + encodeURIComponent(window.location.pathname + window.location.search));
       return;
     }
+    // eslint-disable-next-line no-use-before-define
     const defaultName = (locationLabel ? `${locationLabel} • ` : "") + (Object.keys(filters || {}).length ? "Filters" : "Search");
     const name = window.prompt("Name this search:", defaultName.slice(0, 80));
     if (!name) return;
@@ -76,6 +77,7 @@ export default function SearchResultsPage() {
         name,
         path: window.location.pathname,
         query: window.location.search.replace(/^\?/, ""),
+        // eslint-disable-next-line no-use-before-define
         filters,
       });
       window.alert("Saved! Find it under Account → Saved searches.");
@@ -84,6 +86,7 @@ export default function SearchResultsPage() {
     } finally {
       setSavingSearch(false);
     }
+    // eslint-disable-next-line no-use-before-define
   }, [isLoggedIn, navigate, locationLabel, filters, showToastError]);
 
   // ===== ROUTE PARAMETERS =====

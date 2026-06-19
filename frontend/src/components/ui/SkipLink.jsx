@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 /**
  * SkipLink - Allows keyboard users to skip to main content
